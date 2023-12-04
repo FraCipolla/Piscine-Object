@@ -2,28 +2,28 @@
 
 // #include "Account.hpp"
 #include <vector>
+#include <ostream>
 
 class Bank
 {
     private:
         double _liquidity;
-        static int _ids;
+        static int _counter;
         struct Account
         {
-            const int _id;
-            static int _counter;
+            int _id;
             double _value;
             double _loan;
 
-            Account();
-            Account(double amount);
-            Account(const Account &acc);
-            ~Account();
+            Account(int id) : _id(id), _value(0), _loan(0) {};
+            Account &operator=(const Account &acc);
+            Account(int id, const Account &acc) : _id(id), _value(acc._value), _loan(acc._loan) {};
+            ~Account() {};
 
             // Getters
-            int getId() const;
-            double getValue() const;
-            double getLoan() const;
+            int getId() const { return this->_id; }
+            double getValue() const { return this->_value; }
+            double getLoan() const { return this->_loan; }
         };
         std::vector<Account *> _clientAccounts;
         
@@ -31,11 +31,15 @@ class Bank
     public:
         Bank();
         Bank(double amount);
-
+        Bank(const Account &acc);
+        
         ~Bank();
-        Account * operator[](int id) {
-            return this->_clientAccounts[id];
-        }
+
+        // operators
+        Account* operator[](int id);
+        Account* operator[](int id) const;
+        Bank& operator=(const Bank &bank);
+
         // getters
         double getLiquidity() const;
         double getLiquidity();
@@ -44,19 +48,21 @@ class Bank
 
         // setters
         void setLiquidity(double amount);
-        void setClientAccounts(std::vector<Account *> cliAcc);
 
         // methods
-        Account *createAccount(double amount);
-        void addAccount(Account &acc);
+        void createAccount();
         void delAccount(Account &acc);
-        void addAccValue(double amount, Account &acc);
+        void delAccount(int id);
+        void addMoney(double amount, Account &acc);
+        void addMoney(double amount, int id);
+        void takeMoney(double amount, Account &acc);
+        void takeMoney(double amount, int id);
 
         void withdraw(double amount);
-
         void deposit(double amount);
-
         void giveLoan(double amount, Account &acc);
+        void giveLoan(double amount, int id);
         
         friend std::ostream& operator << (std::ostream& p_os, const Bank& p_bank);
+        friend std::ostream& operator << (std::ostream& p_os, const Account* p_account);
 };

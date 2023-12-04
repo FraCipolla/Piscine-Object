@@ -1,19 +1,19 @@
-NAME=bank
+NAME=graph
 CC=clang++
 CFLAGS=-Wall -Wextra -Werror -std=c++98
-SRCS=Bank.cpp main.cpp
-OBJS=$(SRCS:.cpp=.o)
+SRC=main.cpp Graph.cpp
+OBJ=$(SRC:.cpp=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
 
 %.o: %.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJ)
 
 fclean: clean
 	rm -f $(NAME)
