@@ -46,6 +46,7 @@ Graph::Graph(std::string filename) {
         }
         file.close();
         this->printPoints();
+        this->toPPM("graph.ppm");
     } catch (std::exception &e) {
         std::cout << "Error: " << e.what() << std::endl;
     }
@@ -126,4 +127,22 @@ void Graph::printPoints() {
     std::cout << ">&   ";
     for (int i = 0; i < this->_size.x; i++) std::cout << i << " ";
     std::cout << std::endl;
+}
+
+void Graph::toPPM(std::string filename) {
+    std::ofstream file(filename.c_str());
+    if (!file.is_open()) throw std::exception();
+    file << "P3 ";
+    file << this->_size.x << " " << this->_size.y << " 255" << std::endl;
+    for (int i = 0; i < this->_size.y; i++) {
+        for (int j = 0; j < this->_size.x; j++) {
+            if (this->isPoint(j, this->_size.x - (i))) {
+                file << "255 0 0 ";
+            } else {
+                file << "255 255 255 ";
+            }
+        }
+        file << std::endl;
+    }
+    file.close();
 }

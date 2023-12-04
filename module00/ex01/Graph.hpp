@@ -54,6 +54,6 @@ class Graph {
         void delPoint(float x, float y);
         void clearPoints();
         bool isPoint(float x, float y);
-
+        void toPPM(std::string filename);
         void printPoints();
 };

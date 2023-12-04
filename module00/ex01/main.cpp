@@ -33,6 +33,7 @@ int main(int argc, char **argv)
 
     for (;;) {
         graph.printPoints();
+        graph.toPPM("graph.ppm");
         std::cout << "please insert a point to add or remove:" << std::endl;
         std::cout << "x: ";
         std::cin >> x;
